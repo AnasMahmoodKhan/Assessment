@@ -1,11 +1,37 @@
-import axios from "axios";
 import API from "../utils/API";
-import { RECIEVE_ARTICLE, RECIEVE_NEWS_LIST } from "./actionTypes";
+import {
+  CHANGE_PAGE,
+  DELETE_ITEM,
+  GET_ARTICLE,
+  MARK_AS_READ,
+  RECIEVE_ARTICLE,
+  RECIEVE_NEWS_LIST,
+} from "./actionTypes";
 
 export const recieveNewList = ({ status, list }) => ({
   type: RECIEVE_NEWS_LIST,
   status,
   list,
+});
+
+export const getArticleList = () => ({
+  type: GET_ARTICLE,
+  isFetching: true,
+});
+
+export const deleteItem = (id) => ({
+  type: DELETE_ITEM,
+  deleteID: id,
+});
+
+export const markasRead = (id) => ({
+  type: MARK_AS_READ,
+  readID: id,
+});
+
+export const changePage = (page) => ({
+  type: CHANGE_PAGE,
+  page: page,
 });
 
 export const recieveArticle = ({ status, article }) => ({
@@ -40,17 +66,7 @@ export const getNewsItems = () => {
   };
 };
 
-export const setArticles = (list) => {
-  const fetch_list = list.slice(0, 10);
-  const articles = [];
-  fetch_list.map(
-    async (id) =>
-      await axios
-        .get(
-          `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
-        )
-        .then((response) => articles.push(response.data))
-  );
+export const setArticles = (articles) => {
   return function (dispatch) {
     dispatch(
       recieveArticle({
