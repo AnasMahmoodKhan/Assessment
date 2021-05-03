@@ -50,7 +50,7 @@ export const getNewsItems = () => {
             list: response.data
               .filter((item, id) => id < 90)
               .sort(function (a, b) {
-                return a - b;
+                return b - a;
               }),
           })
         );

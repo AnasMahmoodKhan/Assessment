@@ -68,6 +68,7 @@ const Home = ({
           <React.Fragment>
             <Paginator
               active={page}
+              list={list}
               pageNumber={(number) => pageChangeHandler(number)}
             />
             {articles.map((article) =>

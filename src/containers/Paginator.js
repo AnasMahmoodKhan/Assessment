@@ -1,9 +1,9 @@
 import React from "react";
 import { Pagination } from "react-bootstrap";
 
-const Paginator = ({ active, pageNumber }) => {
+const Paginator = ({ active, pageNumber, list }) => {
   let items = [];
-  for (let number = 1; number <= 3; number++) {
+  for (let number = 1; number <= list.length / 30; number++) {
     items.push(
       <Pagination.Item
         onClick={() => pageNumber(number)}
