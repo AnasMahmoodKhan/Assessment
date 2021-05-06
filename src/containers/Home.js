@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
@@ -9,7 +9,6 @@ import {
   markasRead,
   setArticles,
 } from "../actions/action";
-import { getArticles } from "../utils/apis";
 import Article from "./Article";
 import Paginator from "./Paginator";
 
@@ -26,24 +25,14 @@ const Home = ({
   markasRead,
   changePage,
 }) => {
-  const [articlesList, setarticlesList] = useState([]);
-
   useEffect(() => {
     getNewsItems();
   }, []);
 
   useEffect(() => {
     getArticleList();
-    getArticles(list, page)
-      .then((stories) => {
-        setarticlesList(stories);
-      })
-      .catch(() => {});
+    setArticles(list, page);
   }, [list, page]);
-
-  useEffect(() => {
-    setArticles(articlesList);
-  }, [articlesList]);
 
   const deleteHandler = (id) => {
     deleteItem(id);

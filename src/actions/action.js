@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { getArticles } from "../utils/apis";
 import {
   CHANGE_PAGE,
   DELETE_ITEM,
@@ -66,13 +67,27 @@ export const getNewsItems = () => {
   };
 };
 
-export const setArticles = (articles) => {
+export const setArticles = (list, page) => {
   return function (dispatch) {
-    dispatch(
-      recieveArticle({
-        status: "success",
-        article: articles,
+    let articles = [];
+    getArticles(list, page)
+      .then((stories) => {
+        articles = stories;
+        dispatch(
+          recieveArticle({
+            status: "success",
+            article: articles,
+          })
+        );
       })
-    );
+      .catch(() => {
+        articles = [];
+        dispatch(
+          recieveArticle({
+            status: "success",
+            article: articles,
+          })
+        );
+      });
   };
 };
