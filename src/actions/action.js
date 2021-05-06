@@ -6,6 +6,7 @@ import {
   MARK_AS_READ,
   RECIEVE_ARTICLE,
   RECIEVE_NEWS_LIST,
+  SHOW_COMMENTS,
 } from "./actionTypes";
 
 export const recieveNewList = ({ status, list }) => ({
@@ -40,6 +41,11 @@ export const recieveArticle = ({ status, article }) => ({
   article,
 });
 
+export const recieveComments = ({ comment }) => ({
+  type: SHOW_COMMENTS,
+  comment,
+});
+
 export const getNewsItems = () => {
   return async function (dispatch) {
     await API.fetchNewsItems()
@@ -72,6 +78,16 @@ export const setArticles = (articles) => {
       recieveArticle({
         status: "success",
         article: articles,
+      })
+    );
+  };
+};
+
+export const setComments = (comments) => {
+  return function (dispatch) {
+    dispatch(
+      recieveComments({
+        comment: comments,
       })
     );
   };

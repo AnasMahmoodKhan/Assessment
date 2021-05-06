@@ -6,6 +6,7 @@ import {
   MARK_AS_READ,
   RECIEVE_ARTICLE,
   RECIEVE_NEWS_LIST,
+  SHOW_COMMENTS,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
   articles: [],
   list: [],
   deletedList: [],
+  comments: [],
   error: "",
   page: 1,
 };
@@ -62,6 +64,13 @@ function reducer(state = initialState, action) {
       ...state,
       articles: action.article,
       isFetching: false,
+    };
+  }
+
+  if (action.type === SHOW_COMMENTS) {
+    return {
+      ...state,
+      comments: action.comment,
     };
   }
 

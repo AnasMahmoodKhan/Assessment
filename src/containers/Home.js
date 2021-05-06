@@ -8,8 +8,9 @@ import {
   getNewsItems,
   markasRead,
   setArticles,
+  setComments,
 } from "../actions/action";
-import { getArticles } from "../utils/apis";
+import { getArticles, getComments } from "../utils/apis";
 import Article from "./Article";
 import Paginator from "./Paginator";
 
@@ -23,10 +24,13 @@ const Home = ({
   articles,
   deleteItem,
   deletedList,
+  comments,
   markasRead,
   changePage,
+  setComments,
 }) => {
   const [articlesList, setarticlesList] = useState([]);
+  const [showCommentId, setshowCommentId] = useState(-1);
 
   useEffect(() => {
     getNewsItems();
@@ -57,6 +61,18 @@ const Home = ({
     changePage(num);
   };
 
+  const handleShowComments = (id) => {
+    setshowCommentId(id);
+    let commentLis = articles.filter((item) => item.id === id);
+    if (commentLis[0].kids) {
+      getComments(commentLis[0].kids)
+        .then((comments) => setComments(comments))
+        .catch();
+    } else {
+      setComments([]);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="container">
@@ -81,6 +97,10 @@ const Home = ({
                     time={article.time}
                     score={article.score}
                     read={article.read}
+                    url={article.url}
+                    showCommentId={showCommentId}
+                    comments={comments}
+                    showComments={(id) => handleShowComments(id)}
                     handleDelete={(id) => deleteHandler(id)}
                     handleRead={(id) => markasReadHandler(id)}
                   />
@@ -95,13 +115,21 @@ const Home = ({
 };
 
 const mapStateToProps = (state) => {
-  let { list, isFetching, articles, deletedList, page } = state.reducer;
+  let {
+    list,
+    isFetching,
+    articles,
+    deletedList,
+    page,
+    comments,
+  } = state.reducer;
   return {
     list,
     isFetching,
     articles,
     deletedList,
     page,
+    comments,
   };
 };
 
@@ -114,6 +142,7 @@ const mapDistpatchToProps = (dispatch) => {
       deleteItem,
       markasRead,
       changePage,
+      setComments,
     },
     dispatch
   );

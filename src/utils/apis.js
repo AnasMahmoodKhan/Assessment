@@ -21,3 +21,24 @@ export const getArticles = async (list, page) => {
     console.log("Error while getting list of stories.");
   }
 };
+
+const getComment = async (id) => {
+  try {
+    const comment = await axios.get(
+      `https://hacker-news.firebaseio.com/v0/item/${id}.json`
+    );
+    return comment.data;
+  } catch (error) {
+    console.log("Error while getting a comment.");
+  }
+};
+
+export const getComments = async (list) => {
+  console.log(list);
+  try {
+    const comments = await Promise.all(list.slice(0, 5).map(getComment));
+    return comments;
+  } catch (error) {
+    console.log("Error while getting list of comments.");
+  }
+};

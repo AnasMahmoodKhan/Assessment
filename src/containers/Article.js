@@ -6,16 +6,30 @@ const Article = ({
   time,
   kids,
   handleDelete,
+  url,
   score,
   read,
   handleRead,
+  showComments,
+  comments,
+  showCommentId,
 }) => {
   return (
     <React.Fragment key={id}>
-      <div className={`container p-2 m-1 border`}>
-        <div className={`row`}>
-          <div className="col-8">
-            <h5>{title}</h5>
+      <div
+        className={`container p-2 m-1 border`}
+        style={showCommentId === id ? { backgroundColor: "#DCDCDD" } : null}
+      >
+        <div className={`row`} onClick={() => showComments(id)}>
+          <div className="col-10">
+            {" "}
+            <h5>
+              {title}
+              <br />
+              <a href={url}>
+                <small>{url}</small>
+              </a>
+            </h5>
             <span className="mr-3">
               {new Date(time * 1000).toLocaleDateString("en-US", {
                 hour: "numeric",
@@ -34,7 +48,7 @@ const Article = ({
               <strong>Upvotes:</strong> {score}
             </p>
           </div>
-          <div className="col-4">
+          <div className="col-2">
             <button
               className="btn btn-sm btn-danger m-3"
               onClick={() => handleDelete(id)}
@@ -52,6 +66,27 @@ const Article = ({
             </div>
           </div>
         </div>
+        {showCommentId === id &&
+          comments.map((comment, i) => (
+            <div className="row m-2 p-2 border">
+              <div className="col-2">
+                <small>
+                  <strong>{comment.by}</strong>
+                </small>
+                <br />
+                <small>
+                  {new Date(comment.time * 1000).toLocaleDateString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </small>
+              </div>
+              <div className="col-9">
+                <small>{comment.text}</small>
+              </div>
+              <div></div>
+            </div>
+          ))}
       </div>
     </React.Fragment>
   );

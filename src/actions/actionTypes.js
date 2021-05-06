@@ -8,3 +8,4 @@ export const DELETE_ITEM = "DELETE_ITEM";
 export const MARK_AS_READ = "MARK_AS_READ";
 
 export const CHANGE_PAGE = "CHANGE_PAGE";
+export const SHOW_COMMENTS = "SHOW_COMMENTS";
